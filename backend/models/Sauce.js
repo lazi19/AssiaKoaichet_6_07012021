@@ -1,10 +1,10 @@
-
-const mongoose = require('mongoose'); //importer mongoose
+// On importe mongoose
+const mongoose = require('mongoose');
 
 // Création d'un schema mangoose pour que les données de la base MongoDB ne puissent pas différer de
 //celui précisé dans le schema Model des sauces. L'id est généré automatiquement par MongoDB
 const sauceSchema = mongoose.Schema({
-    id: { type: String, required: true }, // cet id va etre supprimer car le vrai id est généré automatiquement par MongoDB
+    // id: { type: String, required: true }, // cet id va etre supprimer car le vrai id est généré automatiquement par MongoDB
     userId: { type: String, required: true },  // UserId du createur
     name: { type: String, required: true }, // Nom de la sauce
     manufacturer: { type: String, required: true },  // Créateur de la sauce
