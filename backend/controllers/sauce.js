@@ -5,26 +5,21 @@
 
 
 // Récupération du modèle créé grâce à la fonction schéma de mongoose
-
 // Récupération du modèle 'Sauce'
 const Sauce = require('../models/Sauce');
-
 
 // Récupération du module 'file system' de Node permettant de gérer ici les téléchargements et modifications d'images
 const fs = require('fs');
 
 // Permet de créer une nouvelle sauce
 exports.createSauce = (req, res, next) => { 
-    // console.log(req.body);
-
-      // On stocke les données envoyées par le front-end sous forme de form-data dans une variable en les transformant en objet js
+    // On stocke les données envoyées par le front-end sous forme de form-data dans une variable en les transformant en objet js
     const sauceObject = JSON.parse(req.body.sauce);
 
     delete sauceObject._id;  // On supprime l'id généré automatiquement et envoyé par le front-end. L'id de la sauce est créé par la base MongoDB lors de la création dans la base
     
     const sauce = new Sauce({ // creation de nouvelle instance du model Sauce
      
-      // id: req.body.id,
       userId: sauceObject.userId,  
       name: sauceObject.name,
       manufacturer: sauceObject.manufacturer,
@@ -36,19 +31,13 @@ exports.createSauce = (req, res, next) => {
       dislikes: 0,
       usersLiked: [],
       usersDisliked: []
-      // comme on peut utiliser un raccourci (spread) pour remplacer tt l'objet comme ceci ...req.body
-    });  
-        /*
-         res.status(201).json(
-          {message: 'votre sauce a bien été créé ', sauce}        
-          )
-        */
+      // comme on peut utiliser un raccourci (spread) pour remplacer tt l'objet comme ceci (...sauceObject)
+    });
        // la sauve garde de la sauce  dans la base de donnée
        sauce.save()
        .then(() => res.status(201).json({ message: ' Sauce enregistré !'}))  // On envoi une réponse au frontend avec un statut 201 sinon on a une expiration de la requête
        .catch(error => res.status(400).json({ error }));  // On ajoute un code erreur en cas de problème
-     
-      // next();   
+       
   };
 
 // Permet de modifier une sauce
@@ -107,43 +96,6 @@ exports.createSauce = (req, res, next) => {
         console.log('userId :' + userId);
         console.log('like :' + like);
        
-        /*
-         console.log(db.usersLiked);
-         console.log(Sauce.usersLiked)
-        const userLiked = Sauce.usersLiked.find((userId) => userId === req.body.userId);   
-        
-        console.log('userLiked  :' + userLiked );
-
-        userDisliked = Sauce.usersDisliked.find((id) => userId === req.body.userId);
-        
-        if (like === 1  && userLiked.length === 0 ){
-
-              usersLiked = usersLiked.push(userId);
-              likes += likes;
-
-              res.status(200).json({ message: ' Utilisateur aime la sauce.' });
-              error => res.status(400).json({ error })       
-          } 
-
-        if (like === -1 && userDisliked.length === 0){
-          usersDisliked = usersDisliked.push(userId);
-          dislikes += dislikes;
-          res.status(200).json({ message: " Utilisateur n'aime pas la sauce. " });
-          error => res.status(400).json({ error })        
-        }
-        if (like === 0  ){
-          if (userLiked){
-            usersLiked = usersLiked.pup(userId);
-              likes -= likes;
-          }
-          if (userDisliked){
-            usersDisliked = usersDisliked.pup(userId);
-            dislikes -= dislikes;
-          }
-        res.status(200).json({ message: " utilisateur annule ce qu'il aime ou ce qu'il n'aime pas. "}); 
-        error => res.status(400).json({ error })        
-        }
-    */
     if (like === 1 ){
 
         Sauce.updateOne({ _id: sauceId}, { $push: { usersLiked: userId}, $inc: {likes: 1} })
@@ -162,7 +114,7 @@ exports.createSauce = (req, res, next) => {
     if (like === 0  ){
       Sauce.findOne({ _id: sauceId })
       .then((sauce) => { 
-          if (sauce.usersLiked.includes(userId)){ // si dans le usersLiked y a notre userId (si notre utilisateur a deja liker cette sauce )
+          if (sauce.usersLiked.includes(userId)){ // si dans le usersLiked y a notre userId (si notre utilisateur a deja liker cette sauce )( La méthode includes() permet de déterminer si un tableau contient une valeur et renvoie true si c'est le cas, false sinon.)
             Sauce.updateOne({ _id: sauceId }, { $pull: { usersLiked: userId }, $inc: { likes: -1 } })
             .then(() => res.status(200).json({ message: 'Like retiré !' }))
             .catch((error) => res.status(400).json({ error }))

@@ -1,16 +1,3 @@
-//server sans amelioration
-/*
-const http = require('http'); // Charge le module HTTP ou importe
-const app = require('./app'); // importer  le fichier app.js
-
-app.set('port', process.env.PORT || 3000 )  // app.set('cle' , valeur) (app.set('key', value))  pour stocker des variables et pouvoir les recuperer (avec app.get('key')) afin de les utiliser plus tard (un peux comme localStorage)
-const server = http.createServer(app); // création de notre server, est pour faire tourner le serveur il faux lui dir a la fonction express sur quel port elle va tourner on rajoutant la ligne: app.set('port', process.env.PORT || 3000 )
-
-server.listen(process.env.PORT || 3000);
-
-*/
-
-// quelques améliorations à notre fichier server.js, pour le rendre plus stable et approprié pour le déploiement
 
 // Ecoute des requetes http et reponse
 

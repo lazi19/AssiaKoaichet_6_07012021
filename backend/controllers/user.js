@@ -1,7 +1,9 @@
 
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+// On retrouve ici la logique métier en lien avec nos utilisateurs, appliqué aux routes POST pour les opérations d'inscription et de connexion
+
+const bcrypt = require('bcrypt');           // On utilise l'algorithme bcrypt pour hasher le mot de passe des utilisateurs
+const jwt = require('jsonwebtoken');        // On récupère le package jsonwebtoken
+const User = require('../models/User');     // On récupère notre model User ,créer avec le schéma mongoose
 
 
 // On sauvegarde un nouvel utilisateur et crypte son mot de passe avec un hash généré par bcrypt
