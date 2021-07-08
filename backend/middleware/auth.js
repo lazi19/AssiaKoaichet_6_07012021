@@ -7,8 +7,8 @@ const jwt = require('jsonwebtoken'); // On récupère le package jsonwebtoken
 // Ce middleware sera appliqué à toutes les routes afin de les sécuriser
 module.exports = (req, res, next) => {
     try{
-        const token = req.headers.authorization.split(' ')[1];           // On récupère le token dans le header de la requête autorisation, on récupère uniquement le deuxième élément du tableau (car split nous decompose se qui se trouve dans la cle authorization les chaine separer par un espace il nous renvoi un tableau de deux elemnet on prend que le deuxieme )
-        const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');   // On vérifie le token décodé avec la clé secrète initiéé avec la création du token encodé initialement (Cf Controller user), les clés doivent correspondre
+        const token = req.headers.authorization.split(' ')[1];           // On récupère le token dans le headers de la requête autorisation, on récupère uniquement le deuxième élément du tableau (car split nous decompose se qui se trouve dans la cle authorization les chaine separer par un espace il nous renvoi un tableau de deux elemnet on prend que le deuxieme )
+        const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');   // On vérifie le token décodé avec la clé secrète initiéé avec la création du token encodé initialement ( Controller user), les clés doivent correspondre
 
         const userId = decodedToken.userId;                              // On vérifie que le userId envoyé avec la requête correspond au userId encodé dans le token
         if(req.body.userId && req.body.userId !== userId) {

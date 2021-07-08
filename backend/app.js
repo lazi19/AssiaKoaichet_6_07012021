@@ -11,7 +11,6 @@ const mongoose = require('mongoose');    // Plugin Mongoose pour se connecter à
 // On donne accès au chemin de notre système de fichier(dans notre cas les images)
 const path = require('path');             // Plugin qui sert dans l'upload des images et permet de travailler avec les répertoires et chemin de fichier
 
-
 // utilisation du module 'helmet' pour la sécurité en protégeant l'application de certaines vulnérabilités
 // il sécurise nos requêtes HTTP, sécurise les en-têtes, contrôle la prélecture DNS du navigateur, empêche le détournement de clics
 // et ajoute une protection XSS mineure et protège contre le reniflement de TYPE MIME
@@ -27,7 +26,7 @@ const  userRoutes = require('./routes/user');     // On importe la route dédié
 require('dotenv').config();
 
 // Connection à la base de données MongoDB 
-mongoose.connect('mongodb+srv://testSauce:testSauce@cluster0.km05z.mongodb.net/testSauce?retryWrites=true&w=majority',
+mongoose.connect(process.env.DB_HOST,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
@@ -56,7 +55,6 @@ app.use(bodyParser.json());       //transforme le corp de la requette(les donné
 
 //Désactive la mise en cache du navigateur pour securiser les données .
 app.use(nocache());
-
 
 // Gestion de la ressource image de façon statique
 // Midleware qui permet de charger les fichiers qui sont dans le repertoire images
