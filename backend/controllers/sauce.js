@@ -42,15 +42,14 @@ exports.createSauce = (req, res, next) => {
 
 // Permet de modifier une sauce
   exports.modifySauce = (req, res, next) => {
-let sauceObject = {};
+ let sauceObject = {};
 
-    req.file ? // Si la modification contient une image 
-    
+    req.file ? // Si la modification contient une image     
     (
           Sauce.findOne({_id: req.params.id})
           .then((sauce) => {
             const filename = sauce.imageUrl.split('/images/')[1]
-            fs.unlink(`images/${filename}`)
+            fs.unlinkSync(`images/${filename}`)
           }),
           
           sauceObject = {
